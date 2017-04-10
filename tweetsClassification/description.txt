@@ -1,0 +1,39 @@
+Running the Program:
+______________________________
+
+1) collect.py : Collects tweets for classification. Please run this file before running "classify.py". For "cluster.py" i will collect the follower Ids from within the program. There is no need to call the "collect.py" to collect follower Ids.
+
+2) classify.py/cluster.py : Please run either of these files as soon as collect.py is executed. 
+
+3) summarize.py : Please run "summarize.py" to see the output from classification and clustering
+
+Notes :
+_______________________________
+
+I am collecting 100 followers of FoxNews and in turn collecting 100 followers of these followers. Due to the rate limit of twitter API it takes almost 1 hour 30 mins to run "cluster.py". Due to few last minute technical dificulties, i couldn't write the follower IDS to a file.
+
+If you want to reduce the number of followers to 10 or x, please go to "summarizeHelper.py" file and change the value of "limit" to 10 or x in the method "cluster_data". Also, the number of cluster wanted can be changed in the same python file in the main method.
+
+My classify.py takes around 4 to 5 minutes for execution. It collects around 2000 odd tweets in training, 2000 odd tweets in testing and predicts on these 2000 tweets  
+
+
+Other Files:
+_______________________________
+
+1) classifyHelper.py
+2) clusterHelper.py
+3) collectHelper.py
+4) summarizeHelper.py
+5) stopWords.txt
+6) twitter.cfg
+7) twitter2.cfg
+8) twitter3.cfg
+
+Analysis:
+_______________________________
+
+The clustering and Classification python files collect around 5000 tweets and get around 500 to 1000 user Ids. I collect 100 users of "FoxNews" and 100 followers of each of these followers. However, due to the fact that not all the followers have 100 followers and few followers have a private twitter account, i failed to collect 100*100 follower Ids. I user Tweepy to collect tweets for classification and could collect around 5000 tweets very fast. 
+
+For clustering, i draw a graph from "FoxNews node" to all 100 followers of FoxNews. Collect followers of these 100 followers and draw an edge between common followers. This is similar to what we did in A0. Once i have all the Ids i made use of Girvan Newman to cluster the Ids. The major problem i faced during clustering was collecting all the IDS due to twitter API rate limit. I also faced issues in storing these IDS and had to restructure y entire code due to this error. Clustering of these Id's are done based 
+
+For classification, i collected tweets from tweet handles {'@science': "Science", '@business': "Business", '@espn': "Sports"} and created the training data and labeled them based on their twitter handle names. For Eg : a tweet from @ science was labeled science. Next, i collected test tweets from {'@ScienceNews': "Science", '@businessinsider': "Business", '@SportsNation': "Sports"} and used Naive Bayes to predict the classes to which they belong. The different classes i used are Science, Sports, Business. The prediction is done on the 2500 tweets collected and found an accuracy of 71% on an average. I used "stopwords.txt" to recognize stop words and remove them from tweet during the "tweet cleaning" phase. The major problem i faced during this phase was removing strange emojis from the tweet, like a "basketball" emoji or a "champion" emoji etc.
