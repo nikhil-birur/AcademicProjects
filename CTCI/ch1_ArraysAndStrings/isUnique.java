@@ -41,7 +41,6 @@ public class isUnique{
 		for (int i = 0; i < str.length(); i++) {
 			int val = str.charAt(i);
 			int mask = 1 << val;
-			System.out.println(Integer.toBinaryString(mask)+" "+Integer.toBinaryString(checker));
 			if ((checker & mask) > 0) return false;
 			checker |= mask;
 		}
